@@ -1,0 +1,30 @@
+pipeline{
+    agent any
+
+    stages{
+        stage{'Code'} {
+            steps{
+                git branch: 'main', url:https://github.com/Ravipanavi/react_django_demo_app
+            }
+        }
+        stage{'Test'} {
+            steps{
+                echo "Testing"
+            }
+        }
+        Stage {'Build'} {
+            steps {
+            scripts{
+                sh "docker build --no-cache -t react_django_demo_app ."
+            }
+        }
+        stage {'Deploy'} {
+            steps {
+            scripts {
+                sh "docker run -p 8081:8081 -d react_django_demo_app"
+            }
+            }
+        }
+    }
+}
+}
